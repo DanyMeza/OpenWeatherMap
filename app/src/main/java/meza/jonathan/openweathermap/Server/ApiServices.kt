@@ -1,5 +1,6 @@
 package meza.jonathan.openweathermap.Server
 
+import meza.jonathan.openweathermap.model.CityResponseApi
 import meza.jonathan.openweathermap.model.CurrentResponseApi
 import meza.jonathan.openweathermap.model.ForecartResponseApi
 import retrofit2.Call
@@ -23,4 +24,11 @@ interface ApiServices {
         @Query("units") units:String,
         @Query("appid") ApiKey:String,
     ): Call<ForecartResponseApi>
+
+    @GET("geo/1.0/direct")
+    fun getCitiesList(
+        @Query("q") q:String,
+        @Query("limit") limit:Int,
+        @Query("appid") ApiKey:String,
+    ): Call<CityResponseApi>
 }
