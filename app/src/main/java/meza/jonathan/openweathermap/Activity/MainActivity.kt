@@ -4,11 +4,14 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.github.matteobattilana.weather.PrecipType
+import eightbitlab.com.blurview.RenderScriptBlur
 import meza.jonathan.openweathermap.R
 import meza.jonathan.openweathermap.ViewModel.WeatherViewModel
 import meza.jonathan.openweathermap.databinding.ActivityMainBinding
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             var lon = -103.39182
             var name = "Guadalajara"
 
+            // Settings Current Temp
             tvCityTxt.text = name
             progressBar.visibility = View.VISIBLE
             weatherViewModel.loadCurrentWeather(lat, lon, "metric").enqueue(object : retrofit2.Callback<CurrentResponseApi> {
@@ -71,6 +75,21 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, t.toString(), Toast.LENGTH_SHORT).show()
                 }
             })
+
+            // Settings Blue View
+            var radius = 10f
+            val decorView = window.decorView
+            val rootView = (decorView.findViewById(android.R.id.content) as ViewGroup?)
+            val windowBackground = decorView.background
+
+            rootView?.let {
+                blueView.setupWith(it, RenderScriptBlur(this@MainActivity))
+                    .setFrameClearDrawable(windowBackground)
+                    .setBlurRadius(radius)
+                blueView.outlineProvider = ViewOutlineProvider.BACKGROUND
+                blueView.clipToOutline = true
+            }
+
         }
     }
 
