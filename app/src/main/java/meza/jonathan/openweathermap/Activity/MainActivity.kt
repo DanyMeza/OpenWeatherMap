@@ -10,12 +10,15 @@ import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.matteobattilana.weather.PrecipType
 import eightbitlab.com.blurview.RenderScriptBlur
+import meza.jonathan.openweathermap.Adapter.ForecastAdapter
 import meza.jonathan.openweathermap.R
 import meza.jonathan.openweathermap.ViewModel.WeatherViewModel
 import meza.jonathan.openweathermap.databinding.ActivityMainBinding
 import meza.jonathan.openweathermap.model.CurrentResponseApi
+import meza.jonathan.openweathermap.model.ForecartResponseApi
 import retrofit2.Call
 import retrofit2.Response
 import java.util.Calendar
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val weatherViewModel:WeatherViewModel by viewModels()
     private val calendar by lazy { Calendar.getInstance() }
+    private val forecastAdapter by lazy { ForecastAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +95,30 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Forecast Temp
+            weatherViewModel.loadForecastWeather(lat, lon, "metric").enqueue(object : retrofit2.Callback<ForecartResponseApi>{
+                override fun onResponse(
+                    call: Call<ForecartResponseApi>,
+                    response: Response<ForecartResponseApi>
+                ) {
+                    if (response.isSuccessful) {
+                        val data = response.body()
+                        blueView.visibility = View.VISIBLE
+
+                        data?.let {
+                            forecastAdapter.differ.submitList(it.list)
+                            forecastView.apply {
+                                layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                                adapter = forecastAdapter
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ForecartResponseApi>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+            })
 
         }
     }

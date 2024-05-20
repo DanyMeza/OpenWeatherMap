@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import meza.jonathan.openweathermap.databinding.ActivityMainBinding
 import meza.jonathan.openweathermap.databinding.ForecastViewholderBinding
 import meza.jonathan.openweathermap.model.ForecartResponseApi
@@ -37,6 +38,31 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
             else -> "-"
         }
         binding.nameDayTxt.text = dayOfWeekName
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val amPm = if (hour < 12) "am" else "pm"
+        val hour12 = calendar.get(Calendar.HOUR)
+        binding.hourTxt.text = hour12.toString() + amPm
+        binding.tempTxt.text = differ.currentList[position].main?.temp?.let { Math.round(it) }.toString() + "°"
+        val icon = when(differ.currentList[position].weather?.get(0)?.icon.toString()) {
+            "01d", "0n" -> "sunny"
+            "02d", "02n" -> "cloudy_sunny"
+            "03d", "03n" -> "cloudy_sunny"
+            "04d", "04n" -> "cloudy"
+            "09d", "09n" -> "rainy"
+            "10d", "10n" -> "rainy"
+            "11d", "11n" -> "storm"
+            "13d", "13n" -> "snowy"
+            "50d", "50n" -> "windy"
+            else -> "sunny"
+        }
+        val drawableResourceId : Int = binding.root.resources.getIdentifier(
+            icon,
+            "drawable", binding.root.context.packageName
+        )
+
+        Glide.with(binding.root.context)
+            .load(drawableResourceId)
+            .into(binding.pic)
     }
 
     inner class ViewHolder:RecyclerView.ViewHolder(binding.root)
