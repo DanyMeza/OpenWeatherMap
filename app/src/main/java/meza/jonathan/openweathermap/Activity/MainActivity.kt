@@ -90,6 +90,8 @@ class MainActivity : AppCompatActivity() {
                 blueView.clipToOutline = true
             }
 
+            // Forecast Temp
+
         }
     }
 
