@@ -1,5 +1,6 @@
 package meza.jonathan.openweathermap.Activity
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,9 +42,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            var lat = 20.66682
-            var lon = -103.39182
-            var name = "Guadalajara"
+            var lat = intent.getDoubleExtra("lat", 0.0)
+            var lon = intent.getDoubleExtra("lon", 0.0)
+            var name = intent.getStringExtra("name")
+
+            if (lat == 0.0) {
+                lat = 20.66682
+                lon = -103.39182
+                name = "Guadalajara"
+            }
+
+            ivAddCity.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CityListActivity::class.java))
+            }
 
             // Settings Current Temp
             tvCityTxt.text = name

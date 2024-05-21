@@ -1,10 +1,12 @@
 package meza.jonathan.openweathermap.Activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import meza.jonathan.openweathermap.Adapter.CityAdapter
@@ -25,6 +27,11 @@ class CityListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.TRANSPARENT
+        }
 
         binding.apply {
             cityEdit.addTextChangedListener(object : TextWatcher {
