@@ -23,6 +23,8 @@
         android:background="@drawable/edittext_bg"
         android:ems="10"
         android:hint="Escribe tu ciudad"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
         android:inputType="text"
         android:padding="8dp"
         android:textSize="12sp" />

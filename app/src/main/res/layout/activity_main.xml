@@ -107,7 +107,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:text="Wind"
+                android:text="Viento"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -231,7 +231,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:text="Humidity"
+                android:text="Humedad"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="12sp" />

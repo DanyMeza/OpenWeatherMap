@@ -41,11 +41,11 @@ class CityListActivity : AppCompatActivity() {
                     count: Int,
                     after: Int
                 ) {
-                    TODO("Not yet implemented")
+
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    TODO("Not yet implemented")
+
                 }
 
                 override fun afterTextChanged(s: Editable?) {
